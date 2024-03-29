@@ -1,0 +1,11 @@
+name: RoguelikeSpigot
+version: '1.0-SNAPSHOT'
+main: me.jofri.roguelikespigot.RoguelikeSpigot
+api-version: '1.20'
+commands:
+  generatedungeon:
+    description: Generates a dungeon
+    usage: /<command>
+  cleardungeon:
+    description: clears the dungeon
+    usage: /<command>

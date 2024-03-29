@@ -1,0 +1,15 @@
+me\jofri\roguelikespigot\DungeonManager.class
+me\jofri\roguelikespigot\listener\PlayerListener.class
+me\jofri\roguelikespigot\dungeon\RoomType.class
+me\jofri\roguelikespigot\mobs\enemies\CustomZombie.class
+me\jofri\roguelikespigot\dungeon\RoomGenerator.class
+me\jofri\roguelikespigot\dungeon\Dungeon.class
+me\jofri\roguelikespigot\dungeon\Dungeon$1.class
+me\jofri\roguelikespigot\dungeon\RoomGenerator$Offset.class
+me\jofri\roguelikespigot\command\ClearDungeonCommand.class
+me\jofri\roguelikespigot\RoguelikeSpigot.class
+me\jofri\roguelikespigot\dungeon\Enemy.class
+me\jofri\roguelikespigot\dungeon\RoomGenerator$1.class
+me\jofri\roguelikespigot\command\GenerateDungeonCommand.class
+me\jofri\roguelikespigot\dungeon\DungeonLayout.class
+me\jofri\roguelikespigot\dungeon\Room.class
