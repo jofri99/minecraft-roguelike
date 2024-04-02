@@ -41,11 +41,13 @@ public class RoomGenerator {
     private ArrayList<Room> generatedRooms = new ArrayList<>();
 
     Random random;
+
     public RoomGenerator(Random random, int stage) {
         this.random = random;
         this.numRooms = (int) (Math.floor((3.33 * stage) + (random.nextDouble() * 2 + 4)) - 1);
 
     }
+
     public DungeonLayout generate() {
         DungeonLayout dungeonLayout = new DungeonLayout();
         boolean dungeonGenerated = false;
@@ -58,7 +60,7 @@ public class RoomGenerator {
             dungeonGenerated = generateDungeon(numRooms);
             generationCount++;
         }
-        if(!dungeonGenerated) {
+        if (!dungeonGenerated) {
             return dungeonLayout;
         }
 
@@ -98,7 +100,6 @@ public class RoomGenerator {
                 specialRooms.remove(specialRoomIndex);
             }
             if (isOnGrid(currentRoom.getX() + nextOffset.x, currentRoom.getZ() + nextOffset.y, shape) && isFree(currentRoom.getX() + nextOffset.x, currentRoom.getZ() + nextOffset.y, shape)) {
-                System.out.println("in");
                 currentRoom = placeRoom(currentRoom.getX() + nextOffset.x, currentRoom.getZ() + nextOffset.y, shape);
                 generatedRooms.add(currentRoom);
             } else {
@@ -274,7 +275,6 @@ public class RoomGenerator {
             singleCells.remove(singleCells.indexOf(bossCords));
 
             roomLayout.get(bossCords.get(0)).set(bossCords.get(1), 1);
-            System.out.println(bossCords);
             Room bossRoom = new Room(RoomType.BOSS, "boss.schem", bossCords.get(1), bossCords.get(0));
             generatedRooms.add(bossRoom);
             singleCells = removeMoreThanOneAdjacent(singleCells);
@@ -591,7 +591,7 @@ public class RoomGenerator {
 
     private void pasteDoor(int x, int z, BlockFace direction) {
         final Block bottom = Bukkit.getWorld("roguelike").getBlockAt(x, -60, z);
-        doorLocations.add(new Location(Bukkit.getWorld("roguelike"),x, -60,z));
+        doorLocations.add(new Location(Bukkit.getWorld("roguelike"), x, -60, z));
         final Block top = bottom.getRelative(BlockFace.UP, 1);
         bottom.setType(Material.OAK_PLANKS);
         top.setType(Material.OAK_PLANKS);

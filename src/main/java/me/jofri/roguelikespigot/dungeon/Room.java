@@ -3,6 +3,8 @@ package me.jofri.roguelikespigot.dungeon;
 import lombok.Getter;
 import lombok.Setter;
 import me.jofri.roguelikespigot.DungeonManager;
+import me.jofri.roguelikespigot.mobs.CustomEntity;
+import me.jofri.roguelikespigot.mobs.EnemyType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -21,7 +23,7 @@ public class Room {
 
     private boolean isCleared = false;
 
-    private ArrayList<Enemy> enemies = null;
+    private ArrayList<EnemyType> enemies = null;
 
     public Room(RoomType type, String fileName, int x, int z) {
         this.type = type;
@@ -33,19 +35,22 @@ public class Room {
     }
 
     public void isEntered() {
-        if(!this.isCleared && enemies != null && type != RoomType.STARTER && type != RoomType.SHOP && type != RoomType.TREASURE && type != RoomType.BOSS) {
+        if (!this.isCleared && enemies != null && type != RoomType.STARTER && type != RoomType.SHOP && type != RoomType.TREASURE && type != RoomType.BOSS) {
             spawnEnemies();
             DungeonManager.getDungeon().lockDoors();
             this.isCleared = true;
         }
     }
 
-    private void spawnEnemies () {
+    private void spawnEnemies() {
         World world = Bukkit.getWorld("roguelike");
-        if(world != null) {
-            for (Enemy enemy : enemies) {
+        if (world != null) {
+            int id = 0;
+            for (EnemyType enemy : enemies) {
                 Location roomLoc = Dungeon.convertCoords(x, z);
-                world.spawnEntity(new Location(world, roomLoc.getX() + 7, -55, roomLoc.getZ() + 7), enemy.getEntityType());
+                CustomEntity.spawn(enemy, new Location(world, roomLoc.getX() + 7, -55, roomLoc.getZ() + 7), id);
+                DungeonManager.getDungeon().addEnemyId(id);
+                id++;
             }
         }
     }
