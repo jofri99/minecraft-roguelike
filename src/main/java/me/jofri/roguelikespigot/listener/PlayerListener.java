@@ -7,13 +7,18 @@ import me.jofri.roguelikespigot.dungeon.Room;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.ArrayList;
@@ -38,8 +43,6 @@ public class PlayerListener implements Listener {
                     break;
                 }
             }
-
-
             callCount = 0;
         }
         callCount++;
@@ -59,6 +62,27 @@ public class PlayerListener implements Listener {
                 event.setCancelled(true);
             }
         }
+    }
+
+    @EventHandler
+    public void useKeyEvent(PlayerInteractEvent event) {
+        if (isDoorClickedWithKey(event)) {
+            Block doorBlock1 = event.getClickedBlock();
+            doorBlock1.setType(Material.AIR);
+            if (doorBlock1.getRelative(BlockFace.UP).getType() == Material.IRON_BLOCK) {
+                doorBlock1.getRelative(BlockFace.UP).setType(Material.AIR);
+            } else if (doorBlock1.getRelative(BlockFace.DOWN).getType() == Material.IRON_BLOCK) {
+                doorBlock1.getRelative(BlockFace.DOWN).setType(Material.AIR);
+            }
+            event.getItem().setAmount(event.getItem().getAmount() - 1);
+            event.setCancelled(true);
+        }
+    }
+
+    private boolean isDoorClickedWithKey(PlayerInteractEvent event) {
+        return (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_BLOCK)
+                && event.getItem().getType() == Material.TRIPWIRE_HOOK
+                && event.getClickedBlock().getType() == Material.IRON_BLOCK;
     }
 
     @EventHandler

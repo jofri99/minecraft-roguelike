@@ -35,7 +35,7 @@ public class RoomGenerator {
 
     private static final int GRID_SIZE = 10; // Number of rooms per row and column
 
-    private ArrayList<Location> doorLocations = new ArrayList<>();
+    private ArrayList<Location> openDoorLocations = new ArrayList<>();
     private static final int SPECIAL_ROOM_CHANCE = 10;
     private ArrayList<ArrayList<Integer>> roomLayout = new ArrayList<>();
     private ArrayList<Room> generatedRooms = new ArrayList<>();
@@ -70,7 +70,7 @@ public class RoomGenerator {
             generateDoors(room);
         }
         dungeonLayout.setRooms(generatedRooms);
-        dungeonLayout.setDoorLocations(doorLocations);
+        dungeonLayout.setDoorLocations(openDoorLocations);
         return dungeonLayout;
     }
 
@@ -152,89 +152,102 @@ public class RoomGenerator {
         Location anker = Dungeon.convertCoords(room.getX(), room.getZ());
 
         switch (room.getType()) {
-            case BOSS:
             case TREASURE:
             case SHOP:
-            case STARTER:
-            case ONE_BY_ONE:
                 if (room.getZ() - 1 >= 0 && roomLayout.get(room.getZ() - 1).get(room.getX()) == 1) {
-                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() - 1, BlockFace.NORTH);
+                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() - 1, Material.IRON_BLOCK);
                 }
                 if (room.getX() - 1 >= 0 && roomLayout.get(room.getZ()).get(room.getX() - 1) == 1) {
-                    pasteDoor((int) anker.getX() - 1, (int) anker.getZ() + 7, BlockFace.EAST);
+                    pasteDoor((int) anker.getX() - 1, (int) anker.getZ() + 7, Material.IRON_BLOCK);
                 }
                 if (room.getZ() + 1 < roomLayout.size() && roomLayout.get(room.getZ() + 1).get(room.getX()) == 1) {
-                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() + 16, BlockFace.NORTH);
+                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() + 16, Material.IRON_BLOCK);
                 }
                 if (room.getX() + 1 < roomLayout.get(0).size() && roomLayout.get(room.getZ()).get(room.getX() + 1) == 1) {
-                    pasteDoor((int) anker.getX() + 16, (int) anker.getZ() + 7, BlockFace.EAST);
+                    pasteDoor((int) anker.getX() + 16, (int) anker.getZ() + 7, Material.IRON_BLOCK);
+                }
+                break;
+            case STARTER:
+            case BOSS:
+            case ONE_BY_ONE:
+                if (room.getZ() - 1 >= 0 && roomLayout.get(room.getZ() - 1).get(room.getX()) == 1) {
+                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() - 1, Material.OAK_PLANKS);
+                }
+                if (room.getX() - 1 >= 0 && roomLayout.get(room.getZ()).get(room.getX() - 1) == 1) {
+                    pasteDoor((int) anker.getX() - 1, (int) anker.getZ() + 7, Material.OAK_PLANKS);
+                }
+                if (room.getZ() + 1 < roomLayout.size() && roomLayout.get(room.getZ() + 1).get(room.getX()) == 1) {
+                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() + 16, Material.OAK_PLANKS);
+                }
+                if (room.getX() + 1 < roomLayout.get(0).size() && roomLayout.get(room.getZ()).get(room.getX() + 1) == 1) {
+                    pasteDoor((int) anker.getX() + 16, (int) anker.getZ() + 7, Material.OAK_PLANKS);
                 }
                 break;
             case ONE_BY_TWO:
                 if (room.getZ() - 1 >= 0 && roomLayout.get(room.getZ() - 1).get(room.getX()) == 1) {
-                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() - 1, BlockFace.NORTH);
+                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() - 1, Material.OAK_PLANKS);
                 }
                 if (room.getZ() + 2 < roomLayout.size() && roomLayout.get(room.getZ() + 2).get(room.getX()) == 1) {
-                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() + 33, BlockFace.NORTH);
+                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() + 33, Material.OAK_PLANKS);
                 }
                 if (room.getX() - 1 >= 0 && roomLayout.get(room.getZ()).get(room.getX() - 1) == 1) {
-                    pasteDoor((int) anker.getX() - 1, (int) anker.getZ() + 7, BlockFace.EAST);
+                    pasteDoor((int) anker.getX() - 1, (int) anker.getZ() + 7, Material.OAK_PLANKS);
                 }
                 if (room.getX() + 1 < roomLayout.get(0).size() && roomLayout.get(room.getZ()).get(room.getX() + 1) == 1) {
-                    pasteDoor((int) anker.getX() + 16, (int) anker.getZ() + 7, BlockFace.EAST);
+                    pasteDoor((int) anker.getX() + 16, (int) anker.getZ() + 7, Material.OAK_PLANKS);
                 }
                 if (room.getX() + 1 < roomLayout.get(0).size() && roomLayout.get(room.getZ() + 1).get(room.getX() + 1) == 1) {
-                    pasteDoor((int) anker.getX() + 16, (int) anker.getZ() + 24, BlockFace.EAST);
+                    pasteDoor((int) anker.getX() + 16, (int) anker.getZ() + 24, Material.OAK_PLANKS);
                 }
                 if (room.getX() - 1 >= 0 && roomLayout.get(room.getZ() + 1).get(room.getX() - 1) == 1) {
-                    pasteDoor((int) anker.getX() - 1, (int) anker.getZ() + 24, BlockFace.EAST);
+                    pasteDoor((int) anker.getX() - 1, (int) anker.getZ() + 24, Material.OAK_PLANKS);
                 }
 
                 break;
             case TWO_BY_ONE:
                 if (room.getX() - 1 >= 0 && roomLayout.get(room.getZ()).get(room.getX() - 1) == 1) {
-                    pasteDoor((int) anker.getX() - 1, (int) anker.getZ() + 7, BlockFace.EAST);
+                    pasteDoor((int) anker.getX() - 1, (int) anker.getZ() + 7, Material.OAK_PLANKS);
                 }
                 if (room.getX() + 2 < roomLayout.get(0).size() && roomLayout.get(room.getZ()).get(room.getX() + 2) == 1) {
-                    pasteDoor((int) anker.getX() + 33, (int) anker.getZ() + 7, BlockFace.EAST);
+                    pasteDoor((int) anker.getX() + 33, (int) anker.getZ() + 7, Material.OAK_PLANKS);
                 }
                 if (room.getZ() - 1 >= 0 && roomLayout.get(room.getZ() - 1).get(room.getX()) == 1) {
-                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() - 1, BlockFace.NORTH);
+                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() - 1, Material.OAK_PLANKS);
                 }
                 if (room.getZ() + 1 < roomLayout.size() && roomLayout.get(room.getZ() + 1).get(room.getX()) == 1) {
-                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() + 16, BlockFace.NORTH);
+                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() + 16, Material.OAK_PLANKS);
                 }
                 if (room.getZ() - 1 >= 0 && roomLayout.get(room.getZ() - 1).get(room.getX() + 1) == 1) {
-                    pasteDoor((int) anker.getX() + 24, (int) anker.getZ() - 1, BlockFace.NORTH);
+                    pasteDoor((int) anker.getX() + 24, (int) anker.getZ() - 1, Material.OAK_PLANKS);
                 }
                 if (room.getZ() + 1 < roomLayout.size() && roomLayout.get(room.getZ() + 1).get(room.getX() + 1) == 1) {
-                    pasteDoor((int) anker.getX() + 24, (int) anker.getZ() + 16, BlockFace.NORTH);
+                    pasteDoor((int) anker.getX() + 24, (int) anker.getZ() + 16, Material.OAK_PLANKS);
                 }
                 break;
             case TWO_BY_TWO:
                 if (room.getZ() - 1 >= 0 && roomLayout.get(room.getZ() - 1).get(room.getX()) == 1) {
-                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() - 1, BlockFace.NORTH);
+                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() - 1, Material.OAK_PLANKS);
                 }
                 if (room.getZ() - 1 >= 0 && roomLayout.get(room.getZ() - 1).get(room.getX() + 1) == 1) {
-                    pasteDoor((int) anker.getX() + 24, (int) anker.getZ() - 1, BlockFace.NORTH);
+                    pasteDoor((int) anker.getX() + 24, (int) anker.getZ() - 1, Material.OAK_PLANKS);
                 }
                 if (room.getX() + 2 < roomLayout.get(0).size() && roomLayout.get(room.getZ()).get(room.getX() + 2) == 1) {
-                    pasteDoor((int) anker.getX() + 33, (int) anker.getZ() + 7, BlockFace.EAST);
+                    pasteDoor((int) anker.getX() + 33, (int) anker.getZ() + 7, Material.OAK_PLANKS);
                 }
                 if (room.getX() + 2 < roomLayout.get(0).size() && roomLayout.get(room.getZ() + 1).get(room.getX() + 2) == 1) {
-                    pasteDoor((int) anker.getX() + 33, (int) anker.getZ() + 24, BlockFace.EAST);
+                    pasteDoor((int) anker.getX() + 33, (int) anker.getZ() + 24, Material.OAK_PLANKS);
                 }
                 if (room.getZ() + 2 < roomLayout.size() && roomLayout.get(room.getZ() + 2).get(room.getX() + 1) == 1) {
-                    pasteDoor((int) anker.getX() + 24, (int) anker.getZ() + 33, BlockFace.EAST);
+                    pasteDoor((int) anker.getX() + 24, (int) anker.getZ() + 33, Material.OAK_PLANKS);
                 }
                 if (room.getZ() + 2 < roomLayout.size() && roomLayout.get(room.getZ() + 2).get(room.getX()) == 1) {
-                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() + 33, BlockFace.EAST);
+                    pasteDoor((int) anker.getX() + 7, (int) anker.getZ() + 33, Material.OAK_PLANKS);
                 }
                 if (room.getX() - 1 >= 0 && roomLayout.get(room.getZ() + 1).get(room.getX() - 1) == 1) {
-                    pasteDoor((int) anker.getX() - 1, (int) anker.getZ() + 24, BlockFace.NORTH);
+                    pasteDoor((int) anker.getX() - 1, (int) anker.getZ() + 24, Material.OAK_PLANKS);
                 }
                 if (room.getX() - 1 >= 0 && roomLayout.get(room.getZ()).get(room.getX() - 1) == 1) {
-                    pasteDoor((int) anker.getX() - 1, (int) anker.getZ() + 7, BlockFace.NORTH);
+                    pasteDoor((int) anker.getX() - 1, (int) anker.getZ() + 7, Material.OAK_PLANKS);
                 }
                 break;
         }
@@ -589,12 +602,17 @@ public class RoomGenerator {
         return location;
     }
 
-    private void pasteDoor(int x, int z, BlockFace direction) {
+    private void pasteDoor(int x, int z, Material material) {
+        if (material == Material.OAK_PLANKS) {
+            openDoorLocations.add(new Location(Bukkit.getWorld("roguelike"), x, -60, z));
+        }
+        if (material == Material.IRON_BLOCK) {
+            openDoorLocations.remove(openDoorLocations.indexOf(new Location(Bukkit.getWorld("roguelike"), x, -60, z)));
+        }
         final Block bottom = Bukkit.getWorld("roguelike").getBlockAt(x, -60, z);
-        doorLocations.add(new Location(Bukkit.getWorld("roguelike"), x, -60, z));
         final Block top = bottom.getRelative(BlockFace.UP, 1);
-        bottom.setType(Material.OAK_PLANKS);
-        top.setType(Material.OAK_PLANKS);
+        bottom.setType(material);
+        top.setType(material);
     }
 
     public void pasteWall(int x1, int z1, int x2, int z2) {
