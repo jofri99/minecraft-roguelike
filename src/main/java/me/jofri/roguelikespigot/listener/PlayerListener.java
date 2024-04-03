@@ -52,7 +52,7 @@ public class PlayerListener implements Listener {
     public void pickupHeartEvent(EntityPickupItemEvent event) {
         if ((event.getEntity() instanceof Player)) {
             if (event.getItem().getItemStack().getType() == Material.REDSTONE) {
-                if (event.getEntity().getHealth() + 1 <= event.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()) {
+                if (canPlayerPickupHeart((Player) event.getEntity())) {
                     event.getItem().remove();
                     event.setCancelled(true);
                     double currentHealth = event.getEntity().getHealth();
@@ -64,18 +64,25 @@ public class PlayerListener implements Listener {
         }
     }
 
+    private boolean canPlayerPickupHeart(Player player) {
+        return player.getHealth() + 1 <= player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+    }
+
     @EventHandler
     public void useKeyEvent(PlayerInteractEvent event) {
         if (isDoorClickedWithKey(event)) {
-            Block doorBlock1 = event.getClickedBlock();
-            doorBlock1.setType(Material.AIR);
-            if (doorBlock1.getRelative(BlockFace.UP).getType() == Material.IRON_BLOCK) {
-                doorBlock1.getRelative(BlockFace.UP).setType(Material.AIR);
-            } else if (doorBlock1.getRelative(BlockFace.DOWN).getType() == Material.IRON_BLOCK) {
-                doorBlock1.getRelative(BlockFace.DOWN).setType(Material.AIR);
-            }
+            removeDoorBlocks(event.getClickedBlock());
             event.getItem().setAmount(event.getItem().getAmount() - 1);
             event.setCancelled(true);
+        }
+    }
+
+    private void removeDoorBlocks(Block doorBlock1) {
+        doorBlock1.setType(Material.AIR);
+        if (doorBlock1.getRelative(BlockFace.UP).getType() == Material.IRON_BLOCK) {
+            doorBlock1.getRelative(BlockFace.UP).setType(Material.AIR);
+        } else if (doorBlock1.getRelative(BlockFace.DOWN).getType() == Material.IRON_BLOCK) {
+            doorBlock1.getRelative(BlockFace.DOWN).setType(Material.AIR);
         }
     }
 

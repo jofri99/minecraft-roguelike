@@ -25,8 +25,28 @@ public class StartCommand implements CommandExecutor {
         }
         ((Player) commandSender).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(6);
 
-        World world = BukkitAdapter.adapt(Bukkit.getWorld("roguelike"));
+        clearDungeon();
 
+        //stage
+        if (args.length == 1) {
+            Dungeon dungeon = new Dungeon(Integer.parseInt(args[0]));
+            DungeonManager.setDungeon(dungeon);
+        }
+        //stage and seed
+        else if (args.length == 2) {
+            Dungeon dungeon = new Dungeon(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+            DungeonManager.setDungeon(dungeon);
+        } else {
+            Dungeon dungeon = new Dungeon(3);
+            DungeonManager.setDungeon(dungeon);
+        }
+
+        ((Player) commandSender).teleport(new Location(Bukkit.getWorld("roguelike"), 7, -56, 7));
+        return false;
+    }
+
+    private void clearDungeon() {
+        World world = BukkitAdapter.adapt(Bukkit.getWorld("roguelike"));
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
             // Create a CuboidRegion based on the player's coordinates
             CuboidRegion region = new CuboidRegion(
@@ -43,19 +63,5 @@ public class StartCommand implements CommandExecutor {
 
         }
         DungeonManager.resetDungeon();
-
-        if (args.length == 1) {
-            Dungeon dungeon = new Dungeon(Integer.parseInt(args[0]));
-            DungeonManager.setDungeon(dungeon);
-        } else if (args.length == 2) {
-            Dungeon dungeon = new Dungeon(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
-            DungeonManager.setDungeon(dungeon);
-        } else {
-            Dungeon dungeon = new Dungeon(3);
-            DungeonManager.setDungeon(dungeon);
-        }
-
-        ((Player) commandSender).teleport(new Location(Bukkit.getWorld("roguelike"), 7, -56, 7));
-        return false;
     }
 }

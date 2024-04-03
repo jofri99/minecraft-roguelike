@@ -70,7 +70,7 @@ public class Dungeon {
                 maxX = minX + 15;
                 maxZ = minZ + 15;
 
-                if (playerLocation.getX() > minX && playerLocation.getZ() > minZ && playerLocation.getX() < maxX && playerLocation.getZ() < maxZ) {
+                if (isPlayerInsideRoom(minX, minZ, maxX, maxZ, playerLocation)) {
                     return true;
                 }
                 return false;
@@ -81,7 +81,7 @@ public class Dungeon {
                 minZ = roomLoc.getZ();
                 maxX = minX + 15;
                 maxZ = minZ + 32;
-                if (playerLocation.getX() > minX && playerLocation.getZ() > minZ && playerLocation.getX() < maxX && playerLocation.getZ() < maxZ) {
+                if (isPlayerInsideRoom(minX, minZ, maxX, maxZ, playerLocation)) {
                     return true;
                 }
                 return false;
@@ -93,7 +93,7 @@ public class Dungeon {
                 maxX = minX + 32;
                 maxZ = minZ + 15;
 
-                if (playerLocation.getX() > minX && playerLocation.getZ() > minZ && playerLocation.getX() < maxX && playerLocation.getZ() < maxZ) {
+                if (isPlayerInsideRoom(minX, minZ, maxX, maxZ, playerLocation)) {
                     return true;
                 }
                 return false;
@@ -104,13 +104,17 @@ public class Dungeon {
                 minZ = roomLoc.getZ();
                 maxX = minX + 32;
                 maxZ = minZ + 32;
-                if (playerLocation.getX() > minX && playerLocation.getZ() > minZ && playerLocation.getX() < maxX && playerLocation.getZ() < maxZ) {
+                if (isPlayerInsideRoom(minX, minZ, maxX, maxZ, playerLocation)) {
                     return true;
                 }
                 return false;
 
         }
         return false;
+    }
+
+    private static boolean isPlayerInsideRoom(double minX, double minZ, double maxX, double maxZ, Location playerLocation) {
+        return playerLocation.getX() > minX && playerLocation.getZ() > minZ && playerLocation.getX() < maxX && playerLocation.getZ() < maxZ;
     }
 
     public void lockDoors() {

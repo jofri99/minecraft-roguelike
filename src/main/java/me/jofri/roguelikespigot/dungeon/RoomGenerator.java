@@ -202,7 +202,6 @@ public class RoomGenerator {
                 if (room.getX() - 1 >= 0 && roomLayout.get(room.getZ() + 1).get(room.getX() - 1) == 1) {
                     pasteDoor((int) anker.getX() - 1, (int) anker.getZ() + 24, Material.OAK_PLANKS);
                 }
-
                 break;
             case TWO_BY_ONE:
                 if (room.getX() - 1 >= 0 && roomLayout.get(room.getZ()).get(room.getX() - 1) == 1) {
