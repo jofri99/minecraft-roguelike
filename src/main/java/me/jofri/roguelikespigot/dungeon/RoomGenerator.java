@@ -39,6 +39,10 @@ public class RoomGenerator {
     private static final int SPECIAL_ROOM_CHANCE = 10;
     private ArrayList<ArrayList<Integer>> roomLayout = new ArrayList<>();
     private ArrayList<Room> generatedRooms = new ArrayList<>();
+    private int oneByOneRoomsNum = 8;
+    private int oneByTwoRoomsNum = 2;
+    private int twoByOneRoomsNum = 2;
+    private int twoByTwoRoomsNum = 2;
 
     Random random;
 
@@ -253,27 +257,37 @@ public class RoomGenerator {
     }
 
     private Room placeRoom(int x, int y, RoomType shape) {
+        int roomNum;
+        String path;
         switch (shape) {
             case STARTER:
                 roomLayout.get(y).set(x, 1);
                 return new Room(RoomType.STARTER, "1by1.schem", x, y);
             case ONE_BY_ONE:
                 roomLayout.get(y).set(x, 1);
-                return new Room(RoomType.ONE_BY_ONE, "1by1.schem", x, y);
+                roomNum = random.nextInt(oneByOneRoomsNum) + 1;
+                path = "1by1_" + roomNum + ".schem";
+                return new Room(RoomType.ONE_BY_ONE, path, x, y);
             case ONE_BY_TWO:
                 roomLayout.get(y).set(x, 1);
                 roomLayout.get(y + 1).set(x, 1);
-                return new Room(RoomType.ONE_BY_TWO, "1by2.schem", x, y);
+                roomNum = random.nextInt(oneByTwoRoomsNum) + 1;
+                path = "1by2_" + roomNum + ".schem";
+                return new Room(RoomType.ONE_BY_TWO, path, x, y);
             case TWO_BY_ONE:
                 roomLayout.get(y).set(x, 1);
                 roomLayout.get(y).set(x + 1, 1);
-                return new Room(RoomType.TWO_BY_ONE, "2by1.schem", x, y);
+                roomNum = random.nextInt(twoByOneRoomsNum) + 1;
+                path = "2by1_" + roomNum + ".schem";
+                return new Room(RoomType.TWO_BY_ONE, path, x, y);
             case TWO_BY_TWO:
                 roomLayout.get(y).set(x, 1);
                 roomLayout.get(y + 1).set(x, 1);
                 roomLayout.get(y).set(x + 1, 1);
                 roomLayout.get(y + 1).set(x + 1, 1);
-                return new Room(RoomType.TWO_BY_TWO, "2by2.schem", x, y);
+                roomNum = random.nextInt(twoByTwoRoomsNum) + 1;
+                path = "2by2_" + roomNum + ".schem";
+                return new Room(RoomType.TWO_BY_TWO, path, x, y);
             default:
                 return new Room(RoomType.ERROR, "", x, y);
         }
@@ -581,10 +595,9 @@ public class RoomGenerator {
 
             com.sk89q.worldedit.world.World adaptedWorld = BukkitAdapter.adapt(location.getWorld());
 
-            EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(adaptedWorld,
-                    -1);
+            EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(adaptedWorld, -1);
 
-// Saves our operation and builds the paste - ready to be completed.
+            // Saves our operation and builds the paste - ready to be completed.
             Operation operation = new ClipboardHolder(clipboard).createPaste(editSession)
                     .to(BlockVector3.at(location.getX(), location.getY(), location.getZ())).ignoreAirBlocks(true).build();
 

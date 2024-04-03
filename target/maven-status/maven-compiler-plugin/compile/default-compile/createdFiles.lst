@@ -6,6 +6,7 @@ me\jofri\roguelikespigot\listener\EntityListener.class
 me\jofri\roguelikespigot\RoguelikeSpigot.class
 me\jofri\roguelikespigot\dungeon\RoomGenerator$1.class
 me\jofri\roguelikespigot\command\StartCommand.class
+me\jofri\roguelikespigot\dungeon\Room.class
 me\jofri\roguelikespigot\mobs\LootTable$Entries.class
 me\jofri\roguelikespigot\listener\PlayerListener.class
 me\jofri\roguelikespigot\dungeon\Dungeon$1.class

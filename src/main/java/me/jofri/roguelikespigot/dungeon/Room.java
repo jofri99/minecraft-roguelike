@@ -45,17 +45,17 @@ public class Room {
     private void spawnEnemies() {
         World world = Bukkit.getWorld("roguelike");
         if (world != null) {
-            int id = 0;
+            int enemyId = 0;
             for (EnemyType enemyType : enemies) {
-                addEnemy(enemyType, world);
-                id++;
+                addEnemy(enemyType, world, enemyId);
+                enemyId++;
             }
         }
     }
 
-    private void addEnemy(EnemyType enemyType, World world) {
+    private void addEnemy(EnemyType enemyType, World world, int enemyId) {
         Location roomLoc = Dungeon.convertCoords(x, z);
-        CustomEntity.spawn(enemyType, new Location(world, roomLoc.getX() + 7, -55, roomLoc.getZ() + 7), id);
-        DungeonManager.getDungeon().addEnemyId(id);
+        CustomEntity.spawn(enemyType, new Location(world, roomLoc.getX() + 7, -55, roomLoc.getZ() + 7), enemyId);
+        DungeonManager.getDungeon().addEnemyId(enemyId);
     }
 }
