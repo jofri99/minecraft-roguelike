@@ -17,6 +17,7 @@ public class Dungeon {
     private ArrayList<Integer> enemyIds = new ArrayList<>();
     private long seed;
     private Random random;
+    private Room currentRoom;
 
     public Dungeon(int stage, long seed) {
         this.random = new Random(seed);
@@ -52,7 +53,7 @@ public class Dungeon {
         return false;
     }
 
-    public static boolean isPlayerInRoom(Room room, Location playerLocation) {
+    public boolean isPlayerInRoom(Room room, Location playerLocation) {
         Location roomLoc = convertCoords(room.getX(), room.getZ());
         double minX = 0;
         double minZ = 0;
@@ -71,6 +72,7 @@ public class Dungeon {
                 maxZ = minZ + 15;
 
                 if (isPlayerInsideRoom(minX, minZ, maxX, maxZ, playerLocation)) {
+                    currentRoom = room;
                     return true;
                 }
                 return false;
@@ -82,6 +84,7 @@ public class Dungeon {
                 maxX = minX + 15;
                 maxZ = minZ + 32;
                 if (isPlayerInsideRoom(minX, minZ, maxX, maxZ, playerLocation)) {
+                    currentRoom = room;
                     return true;
                 }
                 return false;
@@ -94,6 +97,7 @@ public class Dungeon {
                 maxZ = minZ + 15;
 
                 if (isPlayerInsideRoom(minX, minZ, maxX, maxZ, playerLocation)) {
+                    currentRoom = room;
                     return true;
                 }
                 return false;
@@ -105,6 +109,7 @@ public class Dungeon {
                 maxX = minX + 32;
                 maxZ = minZ + 32;
                 if (isPlayerInsideRoom(minX, minZ, maxX, maxZ, playerLocation)) {
+                    currentRoom = room;
                     return true;
                 }
                 return false;
@@ -115,6 +120,10 @@ public class Dungeon {
 
     private static boolean isPlayerInsideRoom(double minX, double minZ, double maxX, double maxZ, Location playerLocation) {
         return playerLocation.getX() > minX && playerLocation.getZ() > minZ && playerLocation.getX() < maxX && playerLocation.getZ() < maxZ;
+    }
+
+    public Room getCurrentRoom() {
+        return currentRoom;
     }
 
     public void lockDoors() {

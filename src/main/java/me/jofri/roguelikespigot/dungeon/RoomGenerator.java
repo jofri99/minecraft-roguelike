@@ -17,6 +17,7 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.world.World;
 import com.sk89q.worldedit.world.block.BlockState;
+import me.jofri.roguelikespigot.DungeonManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -119,7 +120,7 @@ public class RoomGenerator {
     }
 
     private void generateWalls(Room room) {
-        Location anker = Dungeon.convertCoords(room.getX(), room.getZ());
+        Location anker = DungeonManager.getDungeon().convertCoords(room.getX(), room.getZ());
         switch (room.getType()) {
             case BOSS:
             case TREASURE:
@@ -153,7 +154,7 @@ public class RoomGenerator {
     }
 
     private void generateDoors(Room room) {
-        Location anker = Dungeon.convertCoords(room.getX(), room.getZ());
+        Location anker = DungeonManager.getDungeon().convertCoords(room.getX(), room.getZ());
 
         switch (room.getType()) {
             case TREASURE:

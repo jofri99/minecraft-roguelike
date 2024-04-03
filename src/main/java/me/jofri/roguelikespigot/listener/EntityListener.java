@@ -25,6 +25,7 @@ public class EntityListener implements Listener {
         dungeon.removeEnemyId(id);
 
         if (dungeon.isEnemyIdsEmpty()) {
+            DungeonManager.getDungeon().getCurrentRoom().setIsCleared(true);
             dungeon.openDoors();
         }
     }

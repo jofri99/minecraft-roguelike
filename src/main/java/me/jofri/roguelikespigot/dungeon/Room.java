@@ -38,7 +38,6 @@ public class Room {
         if (!this.isCleared && enemies != null && type != RoomType.STARTER && type != RoomType.SHOP && type != RoomType.TREASURE && type != RoomType.BOSS) {
             spawnEnemies();
             DungeonManager.getDungeon().lockDoors();
-            this.isCleared = true;
         }
     }
 
@@ -54,8 +53,12 @@ public class Room {
     }
 
     private void addEnemy(EnemyType enemyType, World world, int enemyId) {
-        Location roomLoc = Dungeon.convertCoords(x, z);
+        Location roomLoc = DungeonManager.getDungeon().convertCoords(x, z);
         CustomEntity.spawn(enemyType, new Location(world, roomLoc.getX() + 7, -55, roomLoc.getZ() + 7), enemyId);
         DungeonManager.getDungeon().addEnemyId(enemyId);
+    }
+
+    public void setIsCleared(boolean isCleared) {
+        this.isCleared = isCleared;
     }
 }

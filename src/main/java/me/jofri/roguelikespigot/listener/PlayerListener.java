@@ -34,7 +34,7 @@ public class PlayerListener implements Listener {
         if (callCount > 10 && DungeonManager.getDungeon() != null) {
             ArrayList<Room> rooms = DungeonManager.getDungeon().getGeneratedRooms();
             for (Room room : rooms) {
-                boolean isInRoom = Dungeon.isPlayerInRoom(room, event.getTo());
+                boolean isInRoom = DungeonManager.getDungeon().isPlayerInRoom(room, event.getTo());
                 if (isInRoom) {
                     if (lastRoom == null || room.getId() != lastRoom.getId()) {
                         lastRoom = room;
@@ -70,9 +70,12 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void useKeyEvent(PlayerInteractEvent event) {
-        if (isDoorClickedWithKey(event)) {
+        if (isDoorClickedWithKey(event) && DungeonManager.getDungeon().getCurrentRoom().isCleared()) {
             removeDoorBlocks(event.getClickedBlock());
             event.getItem().setAmount(event.getItem().getAmount() - 1);
+            event.setCancelled(true);
+        }
+        if (event.getItem().getType() == Material.TRIPWIRE_HOOK) {
             event.setCancelled(true);
         }
     }
